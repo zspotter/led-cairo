@@ -5,14 +5,16 @@ from rgbmatrix import RGBMatrix
 
 
 class CairoMatrix(RGBMatrix):
+    preserve = False
+
     def run(self):
         self.tick = 0
         offset_canvas = self.CreateFrameCanvas()
+        surface = cairo.ImageSurface(cairo.Format.ARGB32, self.width, self.height)
         while True:
             # start = time.time()
-            # TODO: add the option to use the same surface each frame, so that the draw function
-            # can work ontop of the last frame
-            surface = cairo.ImageSurface(cairo.Format.ARGB32, self.width, self.height)
+            if not self.preserve:
+                surface = cairo.ImageSurface(cairo.Format.ARGB32, self.width, self.height)
             ctx = cairo.Context(surface)
             ctx.scale(self.width, self.height)
 
